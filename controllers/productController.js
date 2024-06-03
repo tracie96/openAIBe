@@ -12,20 +12,18 @@ const getProducts = async (req, res) => {
 
 const getFashionAdvice = async (req, res) => {
   try {
-    const userQuery = req.body.query;
+    const { query, pipeline } = req.body;
     const products = await fetchProducts();
     const productDetails = getProductDetails(products);
-
-    let response;
-    if (process.env.PIPELINE === 'approach_x') {
-      response = await generateFashionAdvice(userQuery, productDetails);
-    } else if (process.env.PIPELINE === 'approach_y') {
-      response = await generateFashionAdvice(userQuery, productDetails);
+    console.log(pipeline)
+    let result;
+    if (pipeline === 'approach_x' || pipeline === 'approach_y') {
+      result = await generateFashionAdvice(query, productDetails);
     } else {
-      response = 'Invalid pipeline configuration.';
+      result = { advice: 'Invalid pipeline configuration.', products: [] };
     }
 
-    res.json({ response });
+    res.json({ response: result.advice, products: result.products });
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate fashion advice' });
   }
