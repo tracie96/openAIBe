@@ -29,7 +29,6 @@ async function generateFashionAdvice(prompt, products, pipeline) {
       const images = p.images.join(', ');
       return `Name: ${p.name}\nDescription: ${p.description}\nImages: ${images}`;
     }).join('\n\n');
-
     let modelPrompt;
     if (pipeline === 'approach_x') {
       modelPrompt = `Based on the following product catalog, provide fashion advice using Approach X.\n\nProduct Catalog:\n${productDetails}\n\nUser query: ${prompt}`;
@@ -41,7 +40,7 @@ async function generateFashionAdvice(prompt, products, pipeline) {
 
     const response = await openai.chat.completions.create({
       prompt: modelPrompt,
-      model: 'text-davinci-003',    });
+      model: 'gpt-3.5-turbo',    });
     return response.data.choices[0].text.trim();
   } catch (error) {
     console.error('Error generating fashion advice:', error);

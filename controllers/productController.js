@@ -15,10 +15,9 @@ const getFashionAdvice = async (req, res) => {
     const { query, pipeline } = req.body;
     const products = await fetchProducts();
     const productDetails = getProductDetails(products);
-    console.log(pipeline)
     let result;
     if (pipeline === 'approach_x' || pipeline === 'approach_y') {
-      result = await generateFashionAdvice(query, productDetails);
+      result = await generateFashionAdvice(query, productDetails,pipeline);
     } else {
       result = { advice: 'Invalid pipeline configuration.', products: [] };
     }
