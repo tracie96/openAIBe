@@ -21,8 +21,7 @@ const getFashionAdvice = async (req, res) => {
     } else {
       result = { advice: 'Invalid pipeline configuration.', products: [] };
     }
-
-    res.json({ response: result.advice, products: result.products });
+    res.json({ response: result});
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate fashion advice' });
   }
